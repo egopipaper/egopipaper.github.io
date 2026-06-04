@@ -29,7 +29,7 @@
   <meta property="og:site_name" content="Ego-Pi: VLA Fine-Tuning for Ego-Centric Human and Robot Data" />
   <meta property="og:type" content="video.other" />
   <meta property="og:title" content="Ego-Pi: VLA Fine-Tuning for Ego-Centric Human and Robot Data" />
-  <meta property="og:description" content="by Ji Woong Kim, Ke Wang, Eric Chen, Zipeng Fu, Cong Gao, Jeff Lai, and Chelsea Finn at Stanford & Meta" />
+  <meta property="og:description" content="by Ji Woong Kim, Ke Wang, Eric Chen, Zipeng Fu, Cong Zhao, Jeff Lai, and Chelsea Finn at Stanford & Meta" />
   <meta property="og:url" content="https://egopipaper.github.io/" />
   <meta property="og:image" content="https://h-surgical-robot-transformer.github.io/static/images/preview_srt_h.gif" />
   <meta property="og:image:secure" content="https://h-surgical-robot-transformer.github.io/static/images/preview_srt_h.gif" />
@@ -113,7 +113,7 @@
         <div class="columns is-centered">
           <div class="column is-two-thirds has-text-centered">
             <video controls autoplay loop muted playsinline style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;">
-              <source src="./resources/egopi_summary.mp4" type="video/mp4">
+              <source src="./resources/egopi_summary_faster.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
             <p class="subtitle is-5" style="margin-top: 0.5rem;">
@@ -179,11 +179,11 @@
       <div class="column is-two-thirds has-text-centered">
         <h2 class="title is-2">Authors</h2>
         <p style="font-size: 1.25em; line-height: 1.6;">
-          <a href="https://sites.google.com/view/jkimrobot/home" target="_blank">Ji Woong (Brian) Kim</a><sup>1</sup>,
-          <a href="https://www.linkedin.com/in/ke-wang-4235aa357/" target="_blank">Ke Wang</a><sup>1</sup>,
+          <a href="https://sites.google.com/view/jkimrobot/home" target="_blank">Ji Woong (Brian) Kim</a><sup>1*</sup>,
+          <a href="https://kewang.ai/" target="_blank">Ke Wang</a><sup>1*</sup>,
           <a href="https://ericcsr.github.io/" target="_blank">Sirui Chen</a><sup>1</sup>,
           <a href="https://zipengfu.github.io/" target="_blank">Zipeng Fu</a><sup>1</sup>,
-          <a href="https://egopipaper.github.io/" target="_blank">Cong Gao</a><sup>2</sup>,
+          <a href="https://egopipaper.github.io/" target="_blank">Cong Zhao</a><sup>2</sup>,
           <a href="https://www.linkedin.com/in/jeff-lai-739bb24/" target="_blank">Jeff Lai</a><sup>2</sup>,
           <a href="https://ai.stanford.edu/~cbfinn/" target="_blank">Chelsea Finn</a><sup>1</sup>,
         
@@ -199,6 +199,15 @@
   </div>
 </section>
 
+<section class="section pt-0"> <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-two-thirds has-text-centered">
+        <img src="./resources/imgs/authors.png" alt="Project Diagram" style="border-radius: 10px; width: 100%; max-width: 800px;">
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="section">
   <div class="container">
@@ -208,24 +217,137 @@
         <h2 class="title is-2">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Robotics faces a fundamental challenge of data scarcity. Unlike language or 
-            vision research, there is no internet-scale dataset for robotic manipulation. 
-            A promising path forward is to leverage egocentric human data, which can be 
-            collected more easily, with greater breadth, and at a larger scale. Towards 
-            this end, we investigate key design choices for learning across human and 
-            humanoid embodiments equipped with dexterous five-finger hands, using the 
-            $\pi_{0.5}$ model as a foundation. We introduce visual guiding keypoints to 
-            reduce the embodiment gap between human hands and robot hands, align both domains 
-            through a shared action representation, and interleave left and right hand actions 
-            across paired tokens to handle high-dimensional hand control without modifying the 
-            pre-trained weights. Our results show that human data not only improves robotic 
-            generalization but also enables robots to learn new semantics and compose existing 
-            skills into novel behaviors without corresponding robot data.
+            Robotics faces a fundamental challenge of data scarcity. Unlike language or vision research,
+             there is no internet-scale dataset for robotic manipulation. A promising path forward is 
+             to leverage egocentric human data, which can be collected more easily, with greater breadth, 
+             and at a larger scale. Towards this end, we investigate key design choices for learning across 
+             human and humanoid embodiments equipped with dexterous five-finger hands, using the Pi0.5 
+             model as a foundation. Our results show that human data enables robots to learn new task semantics 
+             and compose existing skills into novel behaviors without corresponding robot data.
           </p>
         </div>
       </div>
     </div>
   </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <h2 class="title is-2" style="margin-bottom: 0.5rem;">Autonomous Tasks</h2>
+      <p class="subtitle is-5 is-muted">(policies co-trained with human data)</p>
+    </div> -->
+
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <h2 class="title is-2" style="margin-bottom: 0 !important;">Autonomous Tasks</h2>
+      <p class="is-size-5 has-text-grey" style="display: block; margin-top: 0.25rem;">(policies co-trained with human data)</p>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/tomato_sort.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+        <p class="subtitle is-6" style="margin-top: 0.5rem;">
+          <strong>Sorting</strong> 40 tomatoes in a row, 38 / 40 success rate 
+          <br>4x speed
+        </p>
+      
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/packaging.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+        <p class="subtitle is-6" style="margin-top: 0.5rem;">
+          <strong>Packaging</strong> 10 trials in a row, 9 / 10 success rate, policy trained with subtask generation. 
+          <br>4x speed
+        </p>
+      
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/boxing_v2.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+        <p class="subtitle is-6" style="margin-top: 0.5rem;">
+          <strong>Boxing</strong> 15 trials in a row, 14 / 15 success rate, policy trained with subtask generation. 
+          <br>4x speed
+        </p>
+      </div>
+    </div>
+    <!-- <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/m3.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+      </div>
+    </div> -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+
+    <!-- <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <h2 class="title is-2" style="margin-bottom: 0.5rem;">Autonomous Tasks</h2>
+      <p class="subtitle is-5 is-muted">(policies co-trained with human data)</p>
+    </div> -->
+
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <h2 class="title is-2" style="margin-bottom: 0 !important;">Baseline Performance</h2>
+      <p class="is-size-5 has-text-grey" style="display: block; margin-top: 0.25rem;">(policies trained only using robot data)</p>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/tomato_sort_baseline.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+        <p class="subtitle is-6" style="margin-top: 0.5rem;">
+          <strong>Sorting</strong> 40 tomatoes in a row, 16 / 40 success rate. The robot has no concept of sorting and places the tomatoes randomly. 
+          The concept of sorting only appears in human data, which this baseline model was not trained on.  
+          <br>4x speed
+        </p>
+      
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/packaging_baseline.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+        <p class="subtitle is-6" style="margin-top: 0.5rem;">
+          <strong>Packaging</strong> 10 trials in a row, 1 / 10 success rate. The policy fails to learn the rule of
+          placing the black box at the bottom first. This rule-based ordering concept only appears in human data, which this baseline model was not trained on. 
+          <br>4x speed
+        </p>
+      
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/boxing_baseline.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+        <p class="subtitle is-6" style="margin-top: 0.5rem;">
+          <strong>Boxing</strong> 15 trials in a row, 4 / 15 success rate. The policy often attempts to open the box and reach for the block at the same time, without waiting
+          for the box to be fully open. The sequential ordering of these skills only appears in human data, which this baseline model was not trained on. 
+          <br>4x speed
+        </p>
+      </div>
+    </div>
+    <!-- <div class="columns is-centered">
+      <div class="column is-three-fifths is-centered has-text-centered">
+        <video controls autoplay loop muted playsinline src="./resources/tasks/m3.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
+      </div>
+    </div> -->
+  </div>
+</section>
 
 <!-- <section class="section">
   <div class="container">
