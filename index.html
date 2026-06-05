@@ -88,7 +88,7 @@
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="resources/egopi_2025.pdf"
+                <a href="resources/egopi_2026.pdf"
                    class="external-link button is-normal is-rounded is-dark" target="_blank">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -348,6 +348,141 @@
     </div> -->
   </div>
 </section>
+
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-2" style="text-align: center;">Overview</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <p>
+            We explore whether robots can learn high-level task semantics from human data. For instance, given that the robot has basic manipulation skills,
+            can we steer its behavior to learn a novel sorting rule, skill composition, and rule-based ordering just by co-training on such human data?
+          </p>
+          <!-- Example of how to insert an image -->
+          <img src="resources/imgs/egopi_intro_fig.png" alt="Descriptive text about the image" style="max-width: 100%; height: auto;">
+          <!-- You can add more <img> tags as needed -->
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            This could be useful feature because if you'd like to deploy your robot on a new task, but the new task is really just a novel composition of skills
+            that the robot already knows, then you can just collect a small amount of human data for the new task without collecting robot data. For instance, think
+            about cleaning up an unseen room, which might just require a composition of common pick-and-place skills, but performed in a certain sequence.
+
+          </p>
+        </div>
+      </div>  
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-2" style="text-align: center;">Approach</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <!-- Example of how to insert an image -->
+          <img src="resources/imgs/egopi_approach.png" alt="Descriptive text about the image" style="max-width: 100%; height: auto;">
+          <!-- You can add more <img> tags as needed -->
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            To fine-tune VLAs for the humanaoid embodiment, there's a slight problem. Most competent VLAs (e.g., Pi0.5) are trained on gripper-based robots
+            which have limited action dimensions compared to what a humanoid robot might require. For instance, Pi0.5, which is what we used in this work,
+            has allowable maximum action dimension of 32, but for our humanoid robot, each hand required 29 dim (3 dof for position, 6 dof for rotation, and 20 dof for a single hand)
+            totaling 58 dims across both hands. To get around this, one could replace the action projection layer with a larger one, but this would require
+            changing the original pretrained weights of the model. Instead, in order to preserve the pretrained weights, we distributed the 59 dim actions across two tokens.
+            So the actions would be interleved, with the first token outputting 29 dims for the left hand, and the second token outputting 29 dims for the right hand,
+            and continuing this pattern for the entire action sequence. This effectively reduced the action horizon by half (e.g. from 50 to 25 for the Pi05 model),
+            but in practice this was not an issue. See the paper for further details on our other technical contributions.
+          </p>
+        </div>
+      </div>  
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-2" style="text-align: center;">Results</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <!-- Example of how to insert an image -->
+          <img src="resources/imgs/egopi_tasks.png" alt="Descriptive text about the image" style="max-width: 100%; height: auto;">
+          <!-- You can add more <img> tags as needed -->
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            We evaluated our approach on three benchmark tasks, which include tomato sorting, boxing, and packaging. In tomato sorting, the robot is first
+            taught the skill of picking up tomatoes, and the human data teaches the concept of sorting them by color across two bowls. In boxing, the robot
+            is taught two independent skills of opening the box and picking up the block, and the human data teaches the concept of sequencing these skills in 
+            the correct order. In packaging, the robot is taught how to pick up a black box and teddy bear, and human data teaches the concept of placing the black
+            box at the bottom and the teddy bear on top during a packaging sequence.
+          </p>
+        </div>
+      </div>  
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <!-- Example of how to insert an image -->
+          <img src="resources/imgs/egopi_results.png" alt="Descriptive text about the image" style="max-width: 100%; height: auto;">
+          <!-- You can add more <img> tags as needed -->
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            We found that simple co-training with human and robot data (w/ 50-50 ratio per batch) was quite effective in two out of the three tasks.
+            Specifically, we were able to score 37 / 40 success rate on the tomato sorting task, and 14 / 15  success rate on the packaging task, but 4 / 15
+            in the boxing task. In order to do well in the boxing task, we needed to generate subtask instructions, likely becauase it required greater cognitive reasaoning to
+            do well on it. We also experimented with visual augmentation such as drawing keypoints and lines across the robot and human images (i.e. skeletal lines), 
+            but this did not seem to improve the performance much. Also, despite the human data not having any wrist cameras, it was surprising that 
+            the robot was still able to learn the correct task semantics. The robot, however, still relied on the wrist images to do well on pick-and-place of objects,
+            because if the wrist images were occluded, the robot did not perform well. We also found that the choice of the robot hand mattered. In particular,
+            Inspire hands worked better than Tesollo hands in the boxing task, likely due to differences in the visual appearance and closer form factor to the human hand.
+        </div>
+      </div>  
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-2" style="text-align: center;">Limitations and Conclusion</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <div class="content has-text-justified">
+          <!-- Example of how to insert an image -->
+          <img src="resources/imgs/egopi_tasks.png" alt="Descriptive text about the image" style="max-width: 100%; height: auto;">
+          <!-- You can add more <img> tags as needed -->
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            Overall, we demonstrated that teaching high-level task semantics through human data is feasible, enabling acquisition of novel skills and behaviors that
+            exist only in human data.  The humanoid robot could learn novel sorting logic, skill
+              composition, and rule-based ordering with a sucess rate of 90% or higher. However, there are some limitations with our work. We explored relatively short-horizon, simple pick-and-
+              place-oriented tasks in a fixed-camera scenario. Future work should evaluate the proposed ideas in more challenging scenarios, specifically long-horizon, dexterous manipulation tasks that require mobile manipulation. Additionally, human data should ideally teach robots low-level skills beyond
+              high-level task semantics. In this work, we assumed that the robot was already capable of the necessary low-level skills, using human data primarily as a way to stitch these existing behaviors
+              together in novel ways. Unlocking direct low-level skill transfer remains an open challenge that should be investigated further.
+          </p>
+        </div>
+      </div>  
+    </div>
+
+  </div>
+</section>
+
 
 <!-- <section class="section">
   <div class="container">
