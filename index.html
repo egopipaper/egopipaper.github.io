@@ -265,7 +265,7 @@
       <div class="column is-three-fifths is-centered has-text-centered">
         <video controls autoplay loop muted playsinline src="./resources/tasks/packaging.mp4" poster="./resources/loading-icon.gif" style="border: 1px solid #bbb; border-radius: 10px; margin: 1.0%;"></video>
         <p class="subtitle is-6" style="margin-top: 0.5rem;">
-          <strong>Packaging</strong> 10 trials in a row, 9 / 10 success rate, policy trained with subtask generation. 
+          <strong>Packaging</strong> 10 trials in a row, 9 / 10 success rate. 
           <br>4x speed
         </p>
       
@@ -357,7 +357,7 @@
       <div class="column is-two-thirds">
         <div class="content has-text-justified">
           <p>
-            We explore whether robots can learn high-level task semantics from human data. For instance, given that the robot has basic manipulation skills,
+            We explore whether robots can learn high-level task semantics from human data. For instance, given a robot capable of basic manipulation skills,
             can we steer its behavior to learn a novel sorting rule, skill composition, and rule-based ordering just by co-training on such human data?
           </p>
           <!-- Example of how to insert an image -->
@@ -368,9 +368,8 @@
         <div class="content has-text-justified">
           <p>
             This could be useful feature because if you'd like to deploy your robot on a new task, but the new task is really just a novel composition of skills
-            that the robot already knows, then you can just collect a small amount of human data for the new task without collecting robot data. For instance, think
-            about cleaning up an unseen room, which might just require a composition of common pick-and-place skills, but performed in a certain sequence.
-
+            that the robot already knows, then you can just collect a small amount of human data for it without collecting robot data. For instance, think
+            about cleaning up an unseen room, which might just require a composition of common pick-and-place skills, but performed in a specific sequence or preference.
           </p>
         </div>
       </div>  
@@ -393,14 +392,17 @@
 
         <div class="content has-text-justified">
           <p>
-            To fine-tune VLAs for the humanaoid embodiment, there's a slight problem. Most competent VLAs (e.g., Pi0.5) are trained on gripper-based robots
-            which have limited action dimensions compared to what a humanoid robot might require. For instance, Pi0.5, which is what we used in this work,
-            has allowable maximum action dimension of 32, but for our humanoid robot, each hand required 29 dim (3 dof for position, 6 dof for rotation, and 20 dof for a single hand)
-            totaling 58 dims across both hands. To get around this, one could replace the action projection layer with a larger one, but this would require
-            changing the original pretrained weights of the model. Instead, in order to preserve the pretrained weights, we distributed the 59 dim actions across two tokens.
-            So the actions would be interleved, with the first token outputting 29 dims for the left hand, and the second token outputting 29 dims for the right hand,
-            and continuing this pattern for the entire action sequence. This effectively reduced the action horizon by half (e.g. from 50 to 25 for the Pi05 model),
-            but in practice this was not an issue. See the paper for further details on our other technical contributions.
+          Fine-tuning Vision-Language-Action (VLA) models for humanoid embodiments presents a challenge: most state-of-the-art VLAs, 
+          such as Pi0.5, are trained on gripper-based robots with lower action dimensions than those required for humanoid platforms. For example,
+           Pi0.5 has a maximum action dimension of 32. In contrast, our humanoid robot equipped with Tesollo hands requires 29 dimensions per hand 
+           (3 for position, 6 for rotation, and 20 for fingers), totaling 58 dimensions for both hands.
+
+          While replacing the action projection layer with a larger one could accommodate this, it would require altering the model's 
+          pretrained weights. To preserve these weights, we instead distribute the 58-dimensional actions across two tokens. 
+          We interleave the actions, with the first token outputting 29 dimensions for the left hand and the second token outputting 29 
+          dimensions for the right hand, repeating this pattern throughout the action sequence. Although this effectively reduces the 
+          action horizon by half, from 50 to 25 in the case of Pi0.5, we found this reduction to not an issue in practice. 
+          Further details on our technical contributions can be found in the paper.
           </p>
         </div>
       </div>  
@@ -422,11 +424,12 @@
 
         <div class="content has-text-justified">
           <p>
-            We evaluated our approach on three benchmark tasks, which include tomato sorting, boxing, and packaging. In tomato sorting, the robot is first
-            taught the skill of picking up tomatoes, and the human data teaches the concept of sorting them by color across two bowls. In boxing, the robot
-            is taught two independent skills of opening the box and picking up the block, and the human data teaches the concept of sequencing these skills in 
-            the correct order. In packaging, the robot is taught how to pick up a black box and teddy bear, and human data teaches the concept of placing the black
-            box at the bottom and the teddy bear on top during a packaging sequence.
+            We evaluated our approach on three benchmark tasks: tomato sorting, boxing, and packaging. 
+            For tomato sorting, the robot is taught the skill of picking up tomatoes, while human data provides 
+            the concept of sorting them by color into two separate bowls. In boxing, the robot is taught the independent
+             skills of opening a box and picking up a block; human data then teaches the concept of sequencing these skills 
+             in the correct order. Finally, in packaging, the robot is taught to pick up a box and a teddy bear, with human 
+             data providing the concept of placing the box at the bottom and the teddy bear on top to complete the packaging sequence.
           </p>
         </div>
       </div>  
@@ -442,14 +445,17 @@
 
         <div class="content has-text-justified">
           <p>
-            We found that simple co-training with human and robot data (w/ 50-50 ratio per batch) was quite effective in two out of the three tasks.
-            Specifically, we were able to score 37 / 40 success rate on the tomato sorting task, and 14 / 15  success rate on the packaging task, but 4 / 15
-            in the boxing task. In order to do well in the boxing task, we needed to generate subtask instructions, likely becauase it required greater cognitive reasaoning to
-            do well on it. We also experimented with visual augmentation such as drawing keypoints and lines across the robot and human images (i.e. skeletal lines), 
-            but this did not seem to improve the performance much. Also, despite the human data not having any wrist cameras, it was surprising that 
-            the robot was still able to learn the correct task semantics. The robot, however, still relied on the wrist images to do well on pick-and-place of objects,
-            because if the wrist images were occluded, the robot did not perform well. We also found that the choice of the robot hand mattered. In particular,
-            Inspire hands worked better than Tesollo hands in the boxing task, likely due to differences in the visual appearance and closer form factor to the human hand.
+            We found that simple co-training with human and robot data (with a 50-50 ratio per batch) 
+            was quite effective in two out of the three tasks. Specifically, we were able to score a 37/40 success 
+            rate on the tomato sorting task, and a 14/15 success rate on the packaging task, but 4/15 in the boxing task.
+             In order to do well in the boxing task, we needed to generate subtask instructions, likely because it 
+             required greater cognitive reasoning. We also experimented with visual augmentation such as drawing keypoints 
+             and lines across the robot and human images (i.e., skeletal lines), but this did not seem to improve the performance much. 
+             Also, despite the human data not having any wrist cameras, it was surprising that the robot was still able to learn the 
+             correct task semantics. The robot, however, still relied on the wrist images to do well on pick-and-place of objects, 
+             because if the wrist images were occluded, the robot did not perform well. We also found that the choice of the robot 
+             hand mattered. In particular, Inspire hands worked better than Tesollo hands in the boxing task, likely due to differences 
+             in the visual appearance and closer form factor to the human hand.
         </div>
       </div>  
     </div>
